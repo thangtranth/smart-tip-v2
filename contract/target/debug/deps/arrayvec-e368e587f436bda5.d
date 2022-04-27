@@ -1,0 +1,11 @@
+/Users/thangtran/code/rust/near/mycontract/smart-tip-v2/contract/target/debug/deps/arrayvec-e368e587f436bda5.rmeta: /Users/thangtran/.cargo/registry/src/github.com-1ecc6299db9ec823/arrayvec-0.7.2/src/lib.rs /Users/thangtran/.cargo/registry/src/github.com-1ecc6299db9ec823/arrayvec-0.7.2/src/arrayvec_impl.rs /Users/thangtran/.cargo/registry/src/github.com-1ecc6299db9ec823/arrayvec-0.7.2/src/arrayvec.rs /Users/thangtran/.cargo/registry/src/github.com-1ecc6299db9ec823/arrayvec-0.7.2/src/array_string.rs /Users/thangtran/.cargo/registry/src/github.com-1ecc6299db9ec823/arrayvec-0.7.2/src/char.rs /Users/thangtran/.cargo/registry/src/github.com-1ecc6299db9ec823/arrayvec-0.7.2/src/errors.rs /Users/thangtran/.cargo/registry/src/github.com-1ecc6299db9ec823/arrayvec-0.7.2/src/utils.rs
+
+/Users/thangtran/code/rust/near/mycontract/smart-tip-v2/contract/target/debug/deps/arrayvec-e368e587f436bda5.d: /Users/thangtran/.cargo/registry/src/github.com-1ecc6299db9ec823/arrayvec-0.7.2/src/lib.rs /Users/thangtran/.cargo/registry/src/github.com-1ecc6299db9ec823/arrayvec-0.7.2/src/arrayvec_impl.rs /Users/thangtran/.cargo/registry/src/github.com-1ecc6299db9ec823/arrayvec-0.7.2/src/arrayvec.rs /Users/thangtran/.cargo/registry/src/github.com-1ecc6299db9ec823/arrayvec-0.7.2/src/array_string.rs /Users/thangtran/.cargo/registry/src/github.com-1ecc6299db9ec823/arrayvec-0.7.2/src/char.rs /Users/thangtran/.cargo/registry/src/github.com-1ecc6299db9ec823/arrayvec-0.7.2/src/errors.rs /Users/thangtran/.cargo/registry/src/github.com-1ecc6299db9ec823/arrayvec-0.7.2/src/utils.rs
+
+/Users/thangtran/.cargo/registry/src/github.com-1ecc6299db9ec823/arrayvec-0.7.2/src/lib.rs:
+/Users/thangtran/.cargo/registry/src/github.com-1ecc6299db9ec823/arrayvec-0.7.2/src/arrayvec_impl.rs:
+/Users/thangtran/.cargo/registry/src/github.com-1ecc6299db9ec823/arrayvec-0.7.2/src/arrayvec.rs:
+/Users/thangtran/.cargo/registry/src/github.com-1ecc6299db9ec823/arrayvec-0.7.2/src/array_string.rs:
+/Users/thangtran/.cargo/registry/src/github.com-1ecc6299db9ec823/arrayvec-0.7.2/src/char.rs:
+/Users/thangtran/.cargo/registry/src/github.com-1ecc6299db9ec823/arrayvec-0.7.2/src/errors.rs:
+/Users/thangtran/.cargo/registry/src/github.com-1ecc6299db9ec823/arrayvec-0.7.2/src/utils.rs:

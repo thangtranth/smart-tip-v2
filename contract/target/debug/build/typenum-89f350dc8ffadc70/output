@@ -1,0 +1,2 @@
+cargo:rustc-env=TYPENUM_BUILD_CONSTS=/Users/thangtran/code/rust/near/mycontract/smart-tip-v2/contract/target/debug/build/typenum-89f350dc8ffadc70/out/consts.rs
+cargo:rustc-env=TYPENUM_BUILD_OP=/Users/thangtran/code/rust/near/mycontract/smart-tip-v2/contract/target/debug/build/typenum-89f350dc8ffadc70/out/op.rs
