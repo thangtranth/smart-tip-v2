@@ -20,4 +20,6 @@ User stories:
 
 # Reference:
 
+The Smart-Tip could be a POC for the full incentive allocation system. Same as [reputation based system]
+
 [reputation based system]: https://future.a16z.com/reputation-based-systems/
