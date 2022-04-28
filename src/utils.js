@@ -40,7 +40,7 @@ export async function initContract() {
       // Change methods can modify the state. But you don't receive the returned value when called.
       changeMethods: [
         "new",
-        "complete_activitiy",
+        "complete_activity",
         "tip",
         "pay_all_contributors",
       ],

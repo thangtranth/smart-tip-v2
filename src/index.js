@@ -30,6 +30,8 @@ document.querySelector("#tip-button").onclick = async () => {
     );
     throw e;
   }
+  console.log("Tipped 1 NEAR");
+  raiseNotification();
 };
 
 document.querySelector("#create-smarttip").onclick = async () => {
@@ -44,21 +46,31 @@ document.querySelector("#create-smarttip").onclick = async () => {
     throw e;
   }
   console.log("Initiate contract");
+  raiseNotification();
 };
 
-document.querySelector("#get-total-activity-point").onclick = async () => {
+const totalActivityPointEl = document.querySelector(
+  "#get-total-activity-point"
+);
+totalActivityPointEl.onclick = async () => {
   const response = await contract.get_total_activity_point();
   console.log(response);
+  totalActivityPointEl.textContent = "Get activity point: " + response;
 };
 
-document.querySelector("#get-total-amount-to-allocate").onclick = async () => {
+const totalAmountAllocate = document.querySelector(
+  "#get-total-amount-to-allocate"
+);
+totalAmountAllocate.onclick = async () => {
   const response = await contract.get_total_amount_to_allocate();
   console.log(response);
+  totalAmountAllocate.textContent = "Get amount to allocate: " + response;
 };
 
 document.querySelector("#send-fund-contributors").onclick = async () => {
   const response = await contract.pay_all_contributors({});
   console.log("fund-sent");
+  raiseNotification();
 };
 
 let contributorsPoints = [];
@@ -88,7 +100,10 @@ checkBox1.onclick = async () => {
   if (checkBox1.checked == true) {
     console.log("Click task 1");
     console.log(checkBox1.value);
-    await contract.complete_activitiy({ task_id: parseInt(checkBox1.value) });
+    await contract.complete_activity({ task_id: parseInt(checkBox1.value) });
+    console.log("Complete task 1");
+    checkBox1.setAttribute("checked", "checked");
+    raiseNotification();
   }
 };
 
@@ -97,6 +112,10 @@ checkBox2.onclick = async () => {
   if (checkBox2.checked == true) {
     console.log("Click task 2");
     console.log(checkBox2.value);
+    await contract.complete_activity({ task_id: parseInt(checkBox1.value) });
+    console.log("Complete task 2");
+    checkBox2.setAttribute("checked", "checked");
+    raiseNotification();
   }
 };
 
@@ -105,24 +124,27 @@ checkBox3.onclick = async () => {
   if (checkBox3.checked == true) {
     console.log("Click task 3");
     console.log(checkBox3.value);
+    console.log("Complete task 3");
+    checkBox3.setAttribute("checked", "checked");
+    raiseNotification();
   }
 };
-// document.querySelector("#task1").onclick = async () => {
-//   console.log("Click task 1");
-// };
-// document.querySelector("#task1").onclick = async () => {
-//   console.log("Click task 1");
-// };
-// async function tip() {
-//   await window.contract.tip({}, 0, 1_000_000_000_000_000_000_000_000);
-// }
 
-// async function get_total_amount_to_allocate() {
-//   const response = await window.contract.get_total_amount_to_allocate();
-//   console.log(response);
-// }
+// const checkBox3 = document.querySelector("#task3");
+// checkBox3.onclick = async () => {
+//   raiseNotification();
+// };
 
-// `nearInitPromise` gets called on page load
+function raiseNotification() {
+  document.querySelector("[data-behavior=notification]").style.display =
+    "block";
+  console.log("Notification");
+  setTimeout(() => {
+    document.querySelector("[data-behavior=notification]").style.display =
+      "none";
+  }, 11000);
+}
+
 window.nearInitPromise = initContract()
   .then(() => {
     if (window.walletConnection.isSignedIn()) signedInFlow();

@@ -17448,7 +17448,7 @@ function _initContract() {
               // View methods are read only. They don't modify the state, but usually return some value.
               viewMethods: ["get_total_amount_to_allocate", "get_total_activity_point", "get_contributors_and_point"],
               // Change methods can modify the state. But you don't receive the returned value when called.
-              changeMethods: ["new", "complete_activitiy", "tip", "pay_all_contributors"]
+              changeMethods: ["new", "complete_activity", "tip", "pay_all_contributors"]
             });
 
           case 7:
@@ -17533,6 +17533,10 @@ document.querySelector("#tip-button").onclick = /*#__PURE__*/_asyncToGenerator( 
           throw _context.t0;
 
         case 10:
+          console.log("Tipped 1 NEAR");
+          raiseNotification();
+
+        case 12:
         case "end":
           return _context.stop();
       }
@@ -17562,15 +17566,17 @@ document.querySelector("#create-smarttip").onclick = /*#__PURE__*/_asyncToGenera
 
         case 9:
           console.log("Initiate contract");
+          raiseNotification();
 
-        case 10:
+        case 11:
         case "end":
           return _context2.stop();
       }
     }
   }, _callee2, null, [[0, 5]]);
 }));
-document.querySelector("#get-total-activity-point").onclick = /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3() {
+var totalActivityPointEl = document.querySelector("#get-total-activity-point");
+totalActivityPointEl.onclick = /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3() {
   var response;
   return regeneratorRuntime.wrap(function _callee3$(_context3) {
     while (1) {
@@ -17582,15 +17588,17 @@ document.querySelector("#get-total-activity-point").onclick = /*#__PURE__*/_asyn
         case 2:
           response = _context3.sent;
           console.log(response);
+          totalActivityPointEl.textContent = "Get activity point: " + response;
 
-        case 4:
+        case 5:
         case "end":
           return _context3.stop();
       }
     }
   }, _callee3);
 }));
-document.querySelector("#get-total-amount-to-allocate").onclick = /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4() {
+var totalAmountAllocate = document.querySelector("#get-total-amount-to-allocate");
+totalAmountAllocate.onclick = /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4() {
   var response;
   return regeneratorRuntime.wrap(function _callee4$(_context4) {
     while (1) {
@@ -17602,8 +17610,9 @@ document.querySelector("#get-total-amount-to-allocate").onclick = /*#__PURE__*/_
         case 2:
           response = _context4.sent;
           console.log(response);
+          totalAmountAllocate.textContent = "Get amount to allocate: " + response;
 
-        case 4:
+        case 5:
         case "end":
           return _context4.stop();
       }
@@ -17622,8 +17631,9 @@ document.querySelector("#send-fund-contributors").onclick = /*#__PURE__*/_asyncT
         case 2:
           response = _context5.sent;
           console.log("fund-sent");
+          raiseNotification();
 
-        case 4:
+        case 5:
         case "end":
           return _context5.stop();
       }
@@ -17675,18 +17685,23 @@ checkBox1.onclick = /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRunt
       switch (_context7.prev = _context7.next) {
         case 0:
           if (!(checkBox1.checked == true)) {
-            _context7.next = 5;
+            _context7.next = 8;
             break;
           }
 
           console.log("Click task 1");
           console.log(checkBox1.value);
           _context7.next = 5;
-          return contract.complete_activitiy({
+          return contract.complete_activity({
             task_id: parseInt(checkBox1.value)
           });
 
         case 5:
+          console.log("Complete task 1");
+          checkBox1.setAttribute("checked", "checked");
+          raiseNotification();
+
+        case 8:
         case "end":
           return _context7.stop();
       }
@@ -17699,12 +17714,24 @@ checkBox2.onclick = /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRunt
     while (1) {
       switch (_context8.prev = _context8.next) {
         case 0:
-          if (checkBox2.checked == true) {
-            console.log("Click task 2");
-            console.log(checkBox2.value);
+          if (!(checkBox2.checked == true)) {
+            _context8.next = 8;
+            break;
           }
 
-        case 1:
+          console.log("Click task 2");
+          console.log(checkBox2.value);
+          _context8.next = 5;
+          return contract.complete_activity({
+            task_id: parseInt(checkBox1.value)
+          });
+
+        case 5:
+          console.log("Complete task 2");
+          checkBox2.setAttribute("checked", "checked");
+          raiseNotification();
+
+        case 8:
         case "end":
           return _context8.stop();
       }
@@ -17720,6 +17747,9 @@ checkBox3.onclick = /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRunt
           if (checkBox3.checked == true) {
             console.log("Click task 3");
             console.log(checkBox3.value);
+            console.log("Complete task 3");
+            checkBox3.setAttribute("checked", "checked");
+            raiseNotification();
           }
 
         case 1:
@@ -17728,20 +17758,18 @@ checkBox3.onclick = /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRunt
       }
     }
   }, _callee9);
-})); // document.querySelector("#task1").onclick = async () => {
-//   console.log("Click task 1");
+})); // const checkBox3 = document.querySelector("#task3");
+// checkBox3.onclick = async () => {
+//   raiseNotification();
 // };
-// document.querySelector("#task1").onclick = async () => {
-//   console.log("Click task 1");
-// };
-// async function tip() {
-//   await window.contract.tip({}, 0, 1_000_000_000_000_000_000_000_000);
-// }
-// async function get_total_amount_to_allocate() {
-//   const response = await window.contract.get_total_amount_to_allocate();
-//   console.log(response);
-// }
-// `nearInitPromise` gets called on page load
+
+function raiseNotification() {
+  document.querySelector("[data-behavior=notification]").style.display = "block";
+  console.log("Notification");
+  setTimeout(function () {
+    document.querySelector("[data-behavior=notification]").style.display = "none";
+  }, 11000);
+}
 
 window.nearInitPromise = (0, _utils.initContract)().then(function () {
   if (window.walletConnection.isSignedIn()) signedInFlow();else signedOutFlow();
@@ -17774,7 +17802,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "50942" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "57545" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
