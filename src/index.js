@@ -5,6 +5,7 @@ import { initContract, login, logout, toYocto } from "./utils";
 import getConfig from "./config";
 import { async } from "regenerator-runtime/runtime";
 const { networkId } = getConfig(process.env.NODE_ENV || "development");
+const gas = 100_000_000_000_000;
 
 let currentGreeting;
 
@@ -20,7 +21,7 @@ document.querySelector("#sign-out-button").onclick = logout;
 document.querySelector("#tip-button").onclick = async () => {
   console.log("click tip button");
   try {
-    await window.contract.tip({}, 100_000_000_000_000, toYocto("1"));
+    await window.contract.tip({}, gas, toYocto("1"));
   } catch (e) {
     alert(
       "Something went wrong! " +
@@ -60,8 +61,29 @@ document.querySelector("#send-fund-contributors").onclick = async () => {
   console.log("fund-sent");
 };
 
+let contributorsPoints = [];
+document.querySelector("#get-contributors-and-points").onclick = async () => {
+  const response = await contract.get_contributors_and_point({});
+  contributorsPoints.push(response);
+  // console.log(contributorsPoints);
+  renderContributorsPoints(contributorsPoints);
+};
+
+const ulEl = document.getElementById("ul-el");
+function renderContributorsPoints(response) {
+  let listItems = "";
+  for (let i = 0; i < response[0].length; i++) {
+    console.log(i);
+    listItems += `
+    <li> ${response[0][i][0]}: ${response[0][i][1]} point </li>
+    `;
+  }
+  console.log(listItems);
+  ulEl.innerHTML = listItems;
+}
+
 // Complete task
-let checkBox1 = document.querySelector("#task1");
+const checkBox1 = document.querySelector("#task1");
 checkBox1.onclick = async () => {
   if (checkBox1.checked == true) {
     console.log("Click task 1");
@@ -70,7 +92,7 @@ checkBox1.onclick = async () => {
   }
 };
 
-let checkBox2 = document.querySelector("#task2");
+const checkBox2 = document.querySelector("#task2");
 checkBox2.onclick = async () => {
   if (checkBox2.checked == true) {
     console.log("Click task 2");
@@ -78,7 +100,7 @@ checkBox2.onclick = async () => {
   }
 };
 
-let checkBox3 = document.querySelector("#task3");
+const checkBox3 = document.querySelector("#task3");
 checkBox3.onclick = async () => {
   if (checkBox3.checked == true) {
     console.log("Click task 3");

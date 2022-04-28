@@ -17446,7 +17446,7 @@ function _initContract() {
             _context.next = 7;
             return new _nearApiJs.Contract(window.walletConnection.account(), nearConfig.contractName, {
               // View methods are read only. They don't modify the state, but usually return some value.
-              viewMethods: ["get_total_amount_to_allocate", "get_total_activity_point"],
+              viewMethods: ["get_total_amount_to_allocate", "get_total_activity_point", "get_contributors_and_point"],
               // Change methods can modify the state. But you don't receive the returned value when called.
               changeMethods: ["new", "complete_activitiy", "tip", "pay_all_contributors"]
             });
@@ -17499,6 +17499,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 var _getConfig = (0, _config.default)("development" || "development"),
     networkId = _getConfig.networkId;
 
+var gas = 100000000000000;
 var currentGreeting;
 
 function signedOutFlow() {
@@ -17519,7 +17520,7 @@ document.querySelector("#tip-button").onclick = /*#__PURE__*/_asyncToGenerator( 
           console.log("click tip button");
           _context.prev = 1;
           _context.next = 4;
-          return window.contract.tip({}, 100000000000000, (0, _utils.toYocto)("1"));
+          return window.contract.tip({}, gas, (0, _utils.toYocto)("1"));
 
         case 4:
           _context.next = 10;
@@ -17628,25 +17629,22 @@ document.querySelector("#send-fund-contributors").onclick = /*#__PURE__*/_asyncT
       }
     }
   }, _callee5);
-})); // Complete task
-
-var checkBox1 = document.querySelector("#task1");
-checkBox1.onclick = /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee6() {
+}));
+var contributorsPoints = [];
+document.querySelector("#get-contributors-and-points").onclick = /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee6() {
+  var response;
   return regeneratorRuntime.wrap(function _callee6$(_context6) {
     while (1) {
       switch (_context6.prev = _context6.next) {
         case 0:
-          if (!(checkBox1.checked == true)) {
-            _context6.next = 5;
-            break;
-          }
+          _context6.next = 2;
+          return contract.get_contributors_and_point({});
 
-          console.log("Click task 1");
-          console.log(checkBox1.value);
-          _context6.next = 5;
-          return contract.complete_activitiy({
-            task_id: parseInt(checkBox1.value)
-          });
+        case 2:
+          response = _context6.sent;
+          contributorsPoints.push(response); // console.log(contributorsPoints);
+
+          renderContributorsPoints(contributorsPoints);
 
         case 5:
         case "end":
@@ -17655,11 +17653,51 @@ checkBox1.onclick = /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRunt
     }
   }, _callee6);
 }));
-var checkBox2 = document.querySelector("#task2");
-checkBox2.onclick = /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee7() {
+var ulEl = document.getElementById("ul-el");
+
+function renderContributorsPoints(response) {
+  var listItems = "";
+
+  for (var i = 0; i < response[0].length; i++) {
+    console.log(i);
+    listItems += "\n    <li> ".concat(response[0][i][0], ": ").concat(response[0][i][1], " point </li>\n    ");
+  }
+
+  console.log(listItems);
+  ulEl.innerHTML = listItems;
+} // Complete task
+
+
+var checkBox1 = document.querySelector("#task1");
+checkBox1.onclick = /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee7() {
   return regeneratorRuntime.wrap(function _callee7$(_context7) {
     while (1) {
       switch (_context7.prev = _context7.next) {
+        case 0:
+          if (!(checkBox1.checked == true)) {
+            _context7.next = 5;
+            break;
+          }
+
+          console.log("Click task 1");
+          console.log(checkBox1.value);
+          _context7.next = 5;
+          return contract.complete_activitiy({
+            task_id: parseInt(checkBox1.value)
+          });
+
+        case 5:
+        case "end":
+          return _context7.stop();
+      }
+    }
+  }, _callee7);
+}));
+var checkBox2 = document.querySelector("#task2");
+checkBox2.onclick = /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee8() {
+  return regeneratorRuntime.wrap(function _callee8$(_context8) {
+    while (1) {
+      switch (_context8.prev = _context8.next) {
         case 0:
           if (checkBox2.checked == true) {
             console.log("Click task 2");
@@ -17668,16 +17706,16 @@ checkBox2.onclick = /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRunt
 
         case 1:
         case "end":
-          return _context7.stop();
+          return _context8.stop();
       }
     }
-  }, _callee7);
+  }, _callee8);
 }));
 var checkBox3 = document.querySelector("#task3");
-checkBox3.onclick = /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee8() {
-  return regeneratorRuntime.wrap(function _callee8$(_context8) {
+checkBox3.onclick = /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee9() {
+  return regeneratorRuntime.wrap(function _callee9$(_context9) {
     while (1) {
-      switch (_context8.prev = _context8.next) {
+      switch (_context9.prev = _context9.next) {
         case 0:
           if (checkBox3.checked == true) {
             console.log("Click task 3");
@@ -17686,10 +17724,10 @@ checkBox3.onclick = /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRunt
 
         case 1:
         case "end":
-          return _context8.stop();
+          return _context9.stop();
       }
     }
-  }, _callee8);
+  }, _callee9);
 })); // document.querySelector("#task1").onclick = async () => {
 //   console.log("Click task 1");
 // };
@@ -17736,7 +17774,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "54331" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "50942" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

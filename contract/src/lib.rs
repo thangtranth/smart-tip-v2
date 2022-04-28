@@ -65,7 +65,7 @@ impl Project {
     }
 
     // Update point when a task is completed.
-    pub fn complete_activitiy(&mut self, task_id: u64) {
+    pub fn complete_activity(&mut self, task_id: u64) {
         assert!(
             self.tasks
                 .keys_as_vector()
@@ -156,6 +156,14 @@ impl Project {
     pub fn get_total_activity_point(&self) -> u128 {
         return self.total_activity_point.0;
     }
+
+    pub fn get_contributors_and_point(&self) -> Vec<(String, u128)> {
+        let mut contributors_point = Vec::new();
+        for (member, contribution) in self.members.to_vec() {
+            contributors_point.push((member.to_string(), contribution.activity_point.0));
+        }
+        return contributors_point;
+    }
 }
 
 #[cfg(test)]
@@ -186,7 +194,7 @@ mod test {
     fn test_complete_task() {
         let mut project = Project::new(vec![accounts(0)]);
         project.add_task(1);
-        project.complete_activitiy(1);
+        project.complete_activity(1);
         println!(
             "Task status issss: {:#?}",
             project.tasks.get(&TaskId { 0: 1 }).unwrap(),
@@ -202,7 +210,7 @@ mod test {
     fn test_non_existed_task() {
         let mut project = Project::new(vec![accounts(0)]);
         project.add_task(1);
-        project.complete_activitiy(2);
+        project.complete_activity(2);
         assert_eq!(
             project.tasks.get(&TaskId { 0: 1 }).unwrap(),
             TaskStatus::COMPLETE
@@ -263,6 +271,14 @@ mod test {
         assert_eq!(allocated_amount_account_0, 10);
         let allocated_amount_account_1 = project.allocate_tip(&accounts(1));
         assert_eq!(allocated_amount_account_1, 20);
+        // println!(
+        //     "List of contributors: {:#?}",
+        //     project.get_contributors_and_point()
+        // );
+        println!(
+            "List contributors: {:#?}",
+            project.get_contributors_and_point()
+        );
     }
 
     #[test]
