@@ -27,7 +27,7 @@ pub struct Project {
     members: UnorderedMap<AccountId, Contribution>,
     amount_to_allocate: Balance,
     total_activity_point: U128,
-    // Should it only inlude outstanding tasks?
+    //TO DO: Should it only inlude outstanding tasks?
     tasks: UnorderedMap<TaskId, TaskStatus>,
 }
 
@@ -115,13 +115,6 @@ impl Project {
 
         self.amount_to_allocate = 0;
     }
-
-    // Send tips from smart contracts to near account.
-
-    // pub fn pay_tip(&self, account_id: AccountId) -> Promise {
-    //     let tip_amount = self.allocate_tip(&account_id);
-    //     Promise::new(account_id).transfer(tip_amount)
-    // }
 
     // Amount to allocate increase
     fn allocate_tip(&self, account_id: &AccountId) -> u128 {
@@ -235,7 +228,7 @@ mod test {
             .build());
         let mut project = Project::new(vec![accounts(0)]);
         project.add_task(1);
-        project.complete_activitiy(1);
+        project.complete_activity(1);
         testing_env!(VMContextBuilder::new()
             .predecessor_account_id(accounts(1))
             .attached_deposit(10)
@@ -254,13 +247,13 @@ mod test {
         project.add_task(1);
         project.add_task(2);
         project.add_task(3);
-        project.complete_activitiy(1);
+        project.complete_activity(1);
         // New contributor completed 2 tasks
         testing_env!(VMContextBuilder::new()
             .predecessor_account_id(accounts(1))
             .build());
-        project.complete_activitiy(2);
-        project.complete_activitiy(3);
+        project.complete_activity(2);
+        project.complete_activity(3);
 
         testing_env!(VMContextBuilder::new()
             .predecessor_account_id(accounts(2))
@@ -288,7 +281,7 @@ mod test {
             .build());
         let mut project = Project::new(vec![accounts(0)]);
         project.add_task(1);
-        project.complete_activitiy(1);
+        project.complete_activity(1);
         testing_env!(VMContextBuilder::new()
             .predecessor_account_id(accounts(1))
             .attached_deposit(10)
