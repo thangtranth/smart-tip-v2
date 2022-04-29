@@ -73,21 +73,19 @@ document.querySelector("#send-fund-contributors").onclick = async () => {
   raiseNotification();
 };
 
-let contributorsPoints = [];
 document.querySelector("#get-contributors-and-points").onclick = async () => {
   const response = await contract.get_contributors_and_point({});
-  contributorsPoints.push(response);
-  // console.log(contributorsPoints);
-  renderContributorsPoints(contributorsPoints);
+  console.log(response);
+  renderContributorsPoints(response);
 };
 
 const ulEl = document.getElementById("ul-el");
 function renderContributorsPoints(response) {
   let listItems = "";
-  for (let i = 0; i < response[0].length; i++) {
+  for (let i = 0; i < response.length; i++) {
     console.log(i);
     listItems += `
-    <li> ${response[0][i][0]}: ${response[0][i][1]} point </li>
+    <li> ${response[i][0]}: ${response[i][1]} point </li>
     `;
   }
   console.log(listItems);
@@ -112,7 +110,7 @@ checkBox2.onclick = async () => {
   if (checkBox2.checked == true) {
     console.log("Click task 2");
     console.log(checkBox2.value);
-    await contract.complete_activity({ task_id: parseInt(checkBox1.value) });
+    await contract.complete_activity({ task_id: parseInt(checkBox2.value) });
     console.log("Complete task 2");
     checkBox2.setAttribute("checked", "checked");
     raiseNotification();
@@ -124,6 +122,7 @@ checkBox3.onclick = async () => {
   if (checkBox3.checked == true) {
     console.log("Click task 3");
     console.log(checkBox3.value);
+    await contract.complete_activity({ task_id: parseInt(checkBox3.value) });
     console.log("Complete task 3");
     checkBox3.setAttribute("checked", "checked");
     raiseNotification();

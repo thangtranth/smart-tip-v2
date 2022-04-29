@@ -17640,7 +17640,6 @@ document.querySelector("#send-fund-contributors").onclick = /*#__PURE__*/_asyncT
     }
   }, _callee5);
 }));
-var contributorsPoints = [];
 document.querySelector("#get-contributors-and-points").onclick = /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee6() {
   var response;
   return regeneratorRuntime.wrap(function _callee6$(_context6) {
@@ -17652,9 +17651,8 @@ document.querySelector("#get-contributors-and-points").onclick = /*#__PURE__*/_a
 
         case 2:
           response = _context6.sent;
-          contributorsPoints.push(response); // console.log(contributorsPoints);
-
-          renderContributorsPoints(contributorsPoints);
+          console.log(response);
+          renderContributorsPoints(response);
 
         case 5:
         case "end":
@@ -17668,9 +17666,9 @@ var ulEl = document.getElementById("ul-el");
 function renderContributorsPoints(response) {
   var listItems = "";
 
-  for (var i = 0; i < response[0].length; i++) {
+  for (var i = 0; i < response.length; i++) {
     console.log(i);
-    listItems += "\n    <li> ".concat(response[0][i][0], ": ").concat(response[0][i][1], " point </li>\n    ");
+    listItems += "\n    <li> ".concat(response[i][0], ": ").concat(response[i][1], " point </li>\n    ");
   }
 
   console.log(listItems);
@@ -17723,7 +17721,7 @@ checkBox2.onclick = /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRunt
           console.log(checkBox2.value);
           _context8.next = 5;
           return contract.complete_activity({
-            task_id: parseInt(checkBox1.value)
+            task_id: parseInt(checkBox2.value)
           });
 
         case 5:
@@ -17744,15 +17742,24 @@ checkBox3.onclick = /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRunt
     while (1) {
       switch (_context9.prev = _context9.next) {
         case 0:
-          if (checkBox3.checked == true) {
-            console.log("Click task 3");
-            console.log(checkBox3.value);
-            console.log("Complete task 3");
-            checkBox3.setAttribute("checked", "checked");
-            raiseNotification();
+          if (!(checkBox3.checked == true)) {
+            _context9.next = 8;
+            break;
           }
 
-        case 1:
+          console.log("Click task 3");
+          console.log(checkBox3.value);
+          _context9.next = 5;
+          return contract.complete_activity({
+            task_id: parseInt(checkBox3.value)
+          });
+
+        case 5:
+          console.log("Complete task 3");
+          checkBox3.setAttribute("checked", "checked");
+          raiseNotification();
+
+        case 8:
         case "end":
           return _context9.stop();
       }
@@ -17802,7 +17809,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "57545" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "55197" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
